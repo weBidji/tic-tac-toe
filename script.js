@@ -3,39 +3,45 @@ const createBoard = (function () {
     document.body.appendChild(gameBoard);
     gameBoard.classList.add('game-board');
 
-
-    const setupEventListeners = function () {
-        const cells = gameBoard.querySelectorAll('.game-cell');
-        cells.forEach((cell, index) => {
-            cell.addEventListener('click', () => {
-                game.playTurn(index);
-
-
-            });
-        });
-    };
+    // const setupEventListeners = function () {
+    //     const cells = gameBoard.querySelectorAll('.game-cell');
+    //     cells.forEach((cell, index) => {
+    //         cell.addEventListener('click', () => {
+    //             game.playTurn(index);
+    //         });
+    //     });
+    // };
 
     for (let i = 0; i < 9; i++) {
         const cell = document.createElement('div');
         cell.classList.add('game-cell');
         gameBoard.appendChild(cell);
     }
+    const cells = gameBoard.querySelectorAll('.game-cell');
 
     return {
         gameBoard: gameBoard,
-        setupEventListeners: setupEventListeners,
-
+        cells: cells
+        // setupEventListeners: setupEventListeners,
     };
 })();
 
-createBoard.setupEventListeners();
+// createBoard.setupEventListeners();
 
 const game = (function () {
     let board = new Array(9);
     const gameBoard = createBoard.gameBoard;
+    let gameOver = false;
+    let cells = createBoard.cells;
 
-    const cells = gameBoard.querySelectorAll('.game-cell');
+    if (!gameOver) {
 
+        cells.forEach((cell, index) => {
+            cell.addEventListener('click', () => {
+                game.playTurn(index);
+            });
+        });
+    }
 
     const player1 = {
         name: 'Player 1',
@@ -53,12 +59,9 @@ const game = (function () {
     const playTurn = function (position) {
         if (position < 0 || position > 8) {
             console.log('Invalid position.');
-        }
-
-        else if (board[position] !== undefined) {
+        } else if (board[position] !== undefined) {
             console.log('Position already taken');
-        }
-        else {
+        } else {
             const currentPlayer = isP1Turn ? player1 : player2;
             board[position] = currentPlayer.marker;
             console.log(currentPlayer.marker + ' placed on cell ' + position + '.');
@@ -68,26 +71,47 @@ const game = (function () {
 
             if (result) {
                 console.log(currentPlayer.name + ' wins!');
-                resetGame();
-
+                // gameOver = true;
+                replay();
             } else if (currentTurn === 9) {
                 console.log("It's a tie!")
-                resetGame();
+                // gameOver = true;
+                replay();
             } else {
                 switchTurn();
             }
         }
     };
 
+    const replay = function () {
+        if (!gameOver) {
+            gameOver = true;
+            const replayBtn = document.createElement('button');
 
-    const updateBoard = function () {
+            replayBtn.classList.add('replay-btn');
 
-        for (let i = 0; i < cells.length; i++) {
+            replayBtn.innerText = 'Replay?';
 
-            cells[i].textContent = board[i] || '';
+            document.body.appendChild(replayBtn);
+
+            replayBtn.addEventListener('click', () => {
+
+                document.body.removeChild(replayBtn);
+                resetGame();
+
+            })
+            return replayBtn;
         }
+
     };
 
+    function updateBoard() {
+        if (!gameOver) {
+            for (let i = 0; i < cells.length; i++) {
+                cells[i].textContent = board[i] || '';
+            }
+        }
+    }
 
     const switchTurn = function () {
         isP1Turn = !isP1Turn;
@@ -98,8 +122,15 @@ const game = (function () {
             board[i] = undefined;
         }
 
+        cells.forEach((cell) => {
+            cell.textContent = '';
+        });
+
+
+
         isP1Turn = true;
         currentTurn = 0;
+        gameOver = false;
     };
 
     const winningCombinations = [
@@ -120,10 +151,6 @@ const game = (function () {
                 return true;
             }
         }
-
-
-
-
         return false;
     };
 
@@ -132,13 +159,3 @@ const game = (function () {
         switchTurn: switchTurn
     };
 })();
-
-// game.playTurn(0);
-// game.playTurn(2)
-// game.playTurn(1)
-// game.playTurn(3)
-// game.playTurn(5)
-// game.playTurn(4)
-// game.playTurn(6)
-// game.playTurn(7)
-// game.playTurn(8)
