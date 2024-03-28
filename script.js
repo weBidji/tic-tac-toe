@@ -12,6 +12,7 @@ const game = (function () {
     };
 
     let isP1Turn = true;
+    let currentTurn = 0;
 
     const playTurn = function (position) {
         if (position < 0 || position > 8) {
@@ -25,11 +26,12 @@ const game = (function () {
             console.log(currentPlayer.marker + ' placed on cell ' + position + '.');
             switchTurn();
             const result = checkForWin();
-            if (result === 'tie') {
-                // console.log("It's a tie!");
-            } else if (result) {
+            if (result) {
                 console.log(currentPlayer.name + ' wins!');
+                clearBoard();
 
+            } else if (!result && currentTurn > 9) {
+                console.log("It's a tie!")
             }
         }
     };
@@ -38,6 +40,15 @@ const game = (function () {
 
     const switchTurn = function () {
         isP1Turn = !isP1Turn;
+    };
+
+    const clearBoard = function () {
+        for (let i = 0; i < board.length; i++) {
+            board[i] = undefined;
+        }
+
+        isP1Turn = true;
+        currentTurn = 0;
     };
 
     const winningCombinations = [
@@ -60,10 +71,7 @@ const game = (function () {
         }
 
 
-        if (board.every(cell => cell === 'X' || cell === 'O')) {
-            console.log('tied')
-            return 'tie';
-        }
+
 
         return false;
     };
