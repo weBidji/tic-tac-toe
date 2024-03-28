@@ -1,3 +1,20 @@
+const createBoard = (function() {
+    const gameBoard = document.createElement('div');
+    document.body.appendChild(gameBoard);
+    gameBoard.classList.add('game-board');
+
+    for (let i=0; i < 9; i++){
+
+       const cell =  document.createElement('div');
+       cell.classList.add('game-cell');
+       gameBoard.appendChild(cell);
+
+    }
+
+    return gameBoard;
+})()
+
+
 const game = (function () {
     let board = new Array(9);
 
