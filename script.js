@@ -1,22 +1,41 @@
-const createBoard = (function() {
+const createBoard = (function () {
     const gameBoard = document.createElement('div');
     document.body.appendChild(gameBoard);
     gameBoard.classList.add('game-board');
 
-    for (let i=0; i < 9; i++){
 
-       const cell =  document.createElement('div');
-       cell.classList.add('game-cell');
-       gameBoard.appendChild(cell);
+    const setupEventListeners = function () {
+        const cells = gameBoard.querySelectorAll('.game-cell');
+        cells.forEach((cell, index) => {
+            cell.addEventListener('click', () => {
+                game.playTurn(index);
 
+
+            });
+        });
+    };
+
+    for (let i = 0; i < 9; i++) {
+        const cell = document.createElement('div');
+        cell.classList.add('game-cell');
+        gameBoard.appendChild(cell);
     }
 
-    return gameBoard;
-})()
+    return {
+        gameBoard: gameBoard,
+        setupEventListeners: setupEventListeners,
 
+    };
+})();
+
+createBoard.setupEventListeners();
 
 const game = (function () {
     let board = new Array(9);
+    const gameBoard = createBoard.gameBoard;
+
+    const cells = gameBoard.querySelectorAll('.game-cell');
+
 
     const player1 = {
         name: 'Player 1',
@@ -35,14 +54,18 @@ const game = (function () {
         if (position < 0 || position > 8) {
             console.log('Invalid position.');
         }
+
         else if (board[position] !== undefined) {
             console.log('Position already taken');
-        } else {
+        }
+        else {
             const currentPlayer = isP1Turn ? player1 : player2;
             board[position] = currentPlayer.marker;
             console.log(currentPlayer.marker + ' placed on cell ' + position + '.');
+            updateBoard();
             currentTurn++;
             const result = checkForWin();
+
             if (result) {
                 console.log(currentPlayer.name + ' wins!');
                 resetGame();
@@ -56,6 +79,14 @@ const game = (function () {
         }
     };
 
+
+    const updateBoard = function () {
+
+        for (let i = 0; i < cells.length; i++) {
+
+            cells[i].textContent = board[i] || '';
+        }
+    };
 
 
     const switchTurn = function () {
