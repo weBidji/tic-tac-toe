@@ -3,15 +3,6 @@ const createBoard = (function () {
     document.body.appendChild(gameBoard);
     gameBoard.classList.add('game-board');
 
-    // const setupEventListeners = function () {
-    //     const cells = gameBoard.querySelectorAll('.game-cell');
-    //     cells.forEach((cell, index) => {
-    //         cell.addEventListener('click', () => {
-    //             game.playTurn(index);
-    //         });
-    //     });
-    // };
-
     for (let i = 0; i < 9; i++) {
         const cell = document.createElement('div');
         cell.classList.add('game-cell');
@@ -19,29 +10,36 @@ const createBoard = (function () {
     }
     const cells = gameBoard.querySelectorAll('.game-cell');
 
+
+
     return {
         gameBoard: gameBoard,
         cells: cells
-        // setupEventListeners: setupEventListeners,
+
     };
 })();
 
-// createBoard.setupEventListeners();
+
 
 const game = (function () {
     let board = new Array(9);
     const gameBoard = createBoard.gameBoard;
-    let gameOver = false;
+    let gameOver = true;
     let cells = createBoard.cells;
+    let isP1Turn = true;
+    let currentTurn = 0;
 
-    if (!gameOver) {
+    const gameInfo = document.createElement('div');
+    gameInfo.classList.add('game-info');
+    document.body.appendChild(gameInfo);
 
-        cells.forEach((cell, index) => {
-            cell.addEventListener('click', () => {
-                game.playTurn(index);
-            });
-        });
-    }
+    const playBtn = document.createElement('button');
+
+    playBtn.classList.add('play-btn');
+
+    playBtn.innerText = 'Play';
+
+    document.body.appendChild(playBtn);
 
     const player1 = {
         name: 'Player 1',
@@ -53,8 +51,28 @@ const game = (function () {
         marker: 'O'
     };
 
-    let isP1Turn = true;
-    let currentTurn = 0;
+    playBtn.addEventListener('click', startGame)
+    function startGame() {
+        gameOver = !gameOver;
+        playBtn.removeEventListener('click', startGame);
+        playBtn.style.visibility = 'hidden';
+        // console.log(gameOver);
+        // return gameOver;
+        if (!gameOver) {
+
+            cells.forEach((cell, index) => {
+                cell.addEventListener('click', () => {
+                    game.playTurn(index);
+                });
+            });
+        }
+    }
+
+
+
+
+
+
 
     const playTurn = function (position) {
         if (position < 0 || position > 8) {
@@ -64,18 +82,33 @@ const game = (function () {
         } else {
             const currentPlayer = isP1Turn ? player1 : player2;
             board[position] = currentPlayer.marker;
-            console.log(currentPlayer.marker + ' placed on cell ' + position + '.');
+            if (!gameOver) {
+                console.log(currentPlayer.marker + ' placed on cell ' + position + '.');
+            }
             updateBoard();
             currentTurn++;
             const result = checkForWin();
 
             if (result) {
-                console.log(currentPlayer.name + ' wins!');
-                // gameOver = true;
+                if (!gameOver) {
+
+                    gameInfo.textContent = `${currentPlayer.name} wins!`;
+                    console.log(currentPlayer.name + ' wins!');
+                    playBtn.style.visibility = 'visible';
+                    playBtn.textContent = 'Replay?'
+
+                }
+
+
                 replay();
+
+                return gameInfo;
             } else if (currentTurn === 9) {
-                console.log("It's a tie!")
-                // gameOver = true;
+
+                gameInfo.textContent = `It's a tie!`;
+                playBtn.style.visibility = 'visible';
+                playBtn.textContent = 'Replay?'
+
                 replay();
             } else {
                 switchTurn();
@@ -86,21 +119,17 @@ const game = (function () {
     const replay = function () {
         if (!gameOver) {
             gameOver = true;
-            const replayBtn = document.createElement('button');
 
-            replayBtn.classList.add('replay-btn');
 
-            replayBtn.innerText = 'Replay?';
+            playBtn.addEventListener('click', () => {
 
-            document.body.appendChild(replayBtn);
-
-            replayBtn.addEventListener('click', () => {
-
-                document.body.removeChild(replayBtn);
+                playBtn.style.visibility = 'hidden';
                 resetGame();
 
             })
-            return replayBtn;
+
+            return playBtn;
+
         }
 
     };
@@ -125,9 +154,7 @@ const game = (function () {
         cells.forEach((cell) => {
             cell.textContent = '';
         });
-
-
-
+        gameInfo.textContent = '';
         isP1Turn = true;
         currentTurn = 0;
         gameOver = false;
@@ -156,6 +183,7 @@ const game = (function () {
 
     return {
         playTurn: playTurn,
-        switchTurn: switchTurn
+        switchTurn: switchTurn,
+        gameOver: gameOver
     };
 })();

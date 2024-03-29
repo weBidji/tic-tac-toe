@@ -26,3 +26,15 @@
 .game-cell:hover{
     cursor:pointer;
 }
+
+.play-btn:hover{
+    cursor:pointer;
+}
+
+.play-btn {
+    display:block;
+    margin:0 auto;
+    background-color:pink;
+    height:80px;
+    width:80px;
+}
