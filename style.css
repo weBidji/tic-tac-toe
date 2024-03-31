@@ -1,40 +1,51 @@
 *,
 *::before,
 *::after {
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.game-board{
-    display:grid;
-    grid-template-columns: repeat(3,1fr);
-    grid-template-rows: repeat(3,1fr);
-    height:fit-content;
-    width:fit-content;
-    margin: 5rem auto;
-    
+.game-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
 }
 
-.game-cell{
-    border:1px solid black;
-    height:180px;
-    width:180px;
-    border-collapse:collapse;
+.player-input{
+    border:3px solid blue;
 }
 
-.game-cell:hover{
-    cursor:pointer;
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    height: fit-content;
+    width: fit-content;
+    margin: 5rem 0;
+
 }
 
-.play-btn:hover{
-    cursor:pointer;
+.game-cell {
+    border: 1px solid black;
+    height: 150px;
+    width: 150px;
+    border-collapse: collapse;
+}
+
+.game-cell:hover {
+    cursor: pointer;
+}
+
+.play-btn:hover {
+    cursor: pointer;
 }
 
 .play-btn {
-    display:block;
-    margin:0 auto;
-    background-color:pink;
-    height:80px;
-    width:80px;
+    display: block;
+    margin: 0 auto;
+    background-color: pink;
+    height: 80px;
+    width: 80px;
 }

@@ -1,7 +1,26 @@
 const createBoard = (function () {
+    const gameContainer = document.createElement('div')
     const gameBoard = document.createElement('div');
-    document.body.appendChild(gameBoard);
+    const p1input = document.createElement('input');
+
+    p1input.type = 'text';
+    p1input.minLength = 3;
+    p1input.maxLength = 12;
+
+    const p2input = document.createElement('input');
+    p2input.type = 'text';
+    p2input.minLength = 3;
+    p2input.maxLength = 12;
+
+    document.body.appendChild(gameContainer);
+    gameContainer.appendChild(p1input);
+    gameContainer.appendChild(gameBoard);
+    gameContainer.appendChild(p2input);
+
+    gameContainer.classList.add('game-container')
     gameBoard.classList.add('game-board');
+    p1input.classList.add('player-input');
+    p2input.classList.add('player-input');
 
     for (let i = 0; i < 9; i++) {
         const cell = document.createElement('div');
