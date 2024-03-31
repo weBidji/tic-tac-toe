@@ -32,8 +32,12 @@ const createBoard = (function () {
 
 
     return {
+        gameContainer:gameContainer,
         gameBoard: gameBoard,
-        cells: cells
+        cells: cells,
+        p1input:p1input,
+        p2input:p2input,
+
 
     };
 })();
@@ -42,11 +46,16 @@ const createBoard = (function () {
 
 const game = (function () {
     let board = new Array(9);
+    const gameContainer = createBoard.gameContainer;
     const gameBoard = createBoard.gameBoard;
     let gameOver = true;
-    let cells = createBoard.cells;
+    const cells = createBoard.cells;
     let isP1Turn = true;
     let currentTurn = 0;
+
+    const p1input = createBoard.p1input;
+    const p2input = createBoard.p2input;
+    
 
     const gameInfo = document.createElement('div');
     gameInfo.classList.add('game-info');
@@ -61,29 +70,49 @@ const game = (function () {
     document.body.appendChild(playBtn);
 
     const player1 = {
-        name: 'Player 1',
+        // name: 'Player 1',
         marker: 'X'
     };
 
     const player2 = {
-        name: 'Player 2',
+        // name: 'Player 2',
         marker: 'O'
     };
 
     playBtn.addEventListener('click', startGame)
-    function startGame() {
-        gameOver = !gameOver;
-        playBtn.removeEventListener('click', startGame);
-        playBtn.style.visibility = 'hidden';
-        // console.log(gameOver);
-        // return gameOver;
-        if (!gameOver) {
+    function startGame(e) {
 
-            cells.forEach((cell, index) => {
-                cell.addEventListener('click', () => {
-                    game.playTurn(index);
+        if (p1input.value === '' || p2input.value === '') {
+            e.preventDefault()
+        } else {
+            gameOver = !gameOver;
+            playBtn.removeEventListener('click', startGame);
+            playBtn.style.visibility = 'hidden';
+            
+            let p1NameDisplay = document.createElement('div');
+            let p2NameDisplay = document.createElement('div');
+            p1NameDisplay.textContent = p1input.value;
+            p2NameDisplay.textContent = p2input.value;
+            player1.name = p1input.value;
+            player2.name = p2input.value;
+
+
+            gameContainer.removeChild(p1input);
+            gameContainer.removeChild(p2input);
+            gameContainer.insertBefore(p1NameDisplay, gameBoard);
+            gameContainer.appendChild(p2NameDisplay);
+
+
+            
+            
+            if (!gameOver) {
+
+                cells.forEach((cell, index) => {
+                    cell.addEventListener('click', () => {
+                        game.playTurn(index);
+                    });
                 });
-            });
+            }
         }
     }
 
