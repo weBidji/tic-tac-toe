@@ -48,6 +48,7 @@ h1 {
 
     border-radius: 5px;
     width: 150px;
+    height: 50px;
     font-size: 1.4rem;
     padding: 5px 5px;
     font-family: var(--ff-lofi);
@@ -76,7 +77,7 @@ input:focus {
 }
 
 .game-cell {
-    border: 1px solid black;
+    border: 1px solid var(--slate-700);
     height: 150px;
     width: 150px;
     border-collapse: collapse;
@@ -84,7 +85,7 @@ input:focus {
     justify-content: center;
     align-items: center;
     font-size: 3rem;
-    
+
 }
 
 .game-cell:hover {
@@ -92,15 +93,15 @@ input:focus {
     background-color: var(--slate-400)
 }
 
-.disabled{
-    pointer-events: none; 
+.disabled {
+    pointer-events: none;
 }
 
-.winning-cell{
-background-color:var(--slate-500);
-transition:background-color 0.5s linear, font-size 0.5s linear;
-font-size:4.5rem;
-text-shadow:2px 2px 2px var(--slate-800)
+.winning-cell {
+    background-color: var(--slate-500);
+    transition: background-color 0.5s linear, font-size 0.5s linear;
+    font-size: 4.5rem;
+    text-shadow: 2px 2px 2px var(--slate-800)
 }
 
 .player-display {
@@ -157,6 +158,77 @@ text-shadow:2px 2px 2px var(--slate-800)
     background-color: #334155;
     transform: scale(1.1);
 }
+
+@media screen and (max-width:850px) {
+    .game-cell {
+        width: 100px;
+        height: 100px;
+    }
+
+    .player-input {
+        width: 120px;
+        height: 35px;
+        font-size: 1.4rem;
+    }
+
+    .player-display {
+        width: 120px;
+        font-size: 1.4rem;
+
+    }
+
+    .player-display.active {
+        font-size: 1.6rem;
+    }
+
+
+}
+
+@media screen and (max-width:650px) {
+    .game-cell {
+        width: 70px;
+        height: 70px;
+    }
+
+    .player-input {
+        width: 100px;
+        height: 35px;
+
+        font-size: 1.1rem;
+        transform: translateY(150px);
+    }
+
+    input:focus {
+        outline: none;
+        transform: translateY(150px) scale(1.05);
+
+    }
+
+    .player-display {
+        width: 120px;
+
+        font-size: 1.1rem;
+        transform: translateY(150px);
+
+    }
+
+    .player-display.active {
+        font-size: 1.4rem;
+        transform: translateY(150px);
+    }
+
+
+}
+
+@media screen and (max-width:550px) {
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+
+}
+
 
 @font-face {
     font-family: 'lofi';

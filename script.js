@@ -266,10 +266,12 @@ const game = (function () {
                 cells[i].textContent = board[i] || '';
             }
         }
+        
     }
 
     const switchTurn = function () {
         isP1Turn = !isP1Turn;
+      
     };
 
     const resetGame = function () {
