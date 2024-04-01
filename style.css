@@ -17,13 +17,17 @@
     border:3px solid blue;
 }
 
+input:focus{
+    outline:none;
+}
+
 .game-board {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
     height: fit-content;
     width: fit-content;
-    margin: 5rem 0;
+    margin: 5rem 0 0 0;
 
 }
 
@@ -40,8 +44,16 @@
 
 .game-info {
     display: block;
-    margin: 0 auto;
+    margin: 1rem auto;
+    height:25px;
     text-align: center; 
+    
+}
+.score-board{
+    background-color: blue;
+    display:flex;
+    justify-content: space-around;
+    align-items:center;
 }
 
 
@@ -51,7 +63,7 @@
 
 .play-btn {
     display: block;
-    margin: 0 auto;
+    /* margin: 0 auto; */
     background-color: pink;
     height: 80px;
     width: 80px;

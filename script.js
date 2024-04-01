@@ -22,6 +22,9 @@ const createBoard = (function () {
     p1input.classList.add('player-input');
     p2input.classList.add('player-input');
 
+
+
+
     for (let i = 0; i < 9; i++) {
         const cell = document.createElement('div');
         cell.classList.add('game-cell');
@@ -32,11 +35,11 @@ const createBoard = (function () {
 
 
     return {
-        gameContainer:gameContainer,
+        gameContainer: gameContainer,
         gameBoard: gameBoard,
         cells: cells,
-        p1input:p1input,
-        p2input:p2input,
+        p1input: p1input,
+        p2input: p2input,
 
 
     };
@@ -55,46 +58,71 @@ const game = (function () {
 
     const p1input = createBoard.p1input;
     const p2input = createBoard.p2input;
-    
+
+    let p1score;
+    let p2score;
+
+
+
 
     const gameInfo = document.createElement('div');
     gameInfo.classList.add('game-info');
     document.body.appendChild(gameInfo);
 
+    const scoreBoard = document.createElement('div');
+    scoreBoard.classList.add('score-board');
+    document.body.appendChild(scoreBoard);
+
     const playBtn = document.createElement('button');
 
     playBtn.classList.add('play-btn');
 
-    playBtn.innerText = 'Play';
+    playBtn.textContent = 'Play';
 
-    document.body.appendChild(playBtn);
+    scoreBoard.appendChild(playBtn);
+
 
     const player1 = {
         // name: 'Player 1',
-        marker: 'X'
+        marker: 'X',
+        score: 0
     };
 
     const player2 = {
         // name: 'Player 2',
-        marker: 'O'
+        marker: 'O',
+        score: 0
     };
 
     playBtn.addEventListener('click', startGame)
+
+
     function startGame(e) {
 
         if (p1input.value === '' || p2input.value === '') {
-            e.preventDefault()
+            e.preventDefault();
+            gameInfo.textContent = "Please enter player names"
         } else {
+            gameInfo.textContent = '';
             gameOver = !gameOver;
             playBtn.removeEventListener('click', startGame);
             playBtn.style.visibility = 'hidden';
-            
+
             let p1NameDisplay = document.createElement('div');
             let p2NameDisplay = document.createElement('div');
             p1NameDisplay.textContent = p1input.value;
             p2NameDisplay.textContent = p2input.value;
             player1.name = p1input.value;
             player2.name = p2input.value;
+
+            p1score = document.createElement('div');
+            p2score = document.createElement('div');
+            p1score.classList.add('player-score');
+            p2score.classList.add('player-score');
+            p1score.textContent = player1.score;
+            p2score.textContent = player2.score;
+            scoreBoard.insertBefore(p1score, playBtn);
+            scoreBoard.appendChild(p2score);
 
 
             gameContainer.removeChild(p1input);
@@ -103,8 +131,8 @@ const game = (function () {
             gameContainer.appendChild(p2NameDisplay);
 
 
-            
-            
+
+
             if (!gameOver) {
 
                 cells.forEach((cell, index) => {
@@ -113,7 +141,15 @@ const game = (function () {
                     });
                 });
             }
+
+
+
+
+
         }
+
+        return { p1score: p1score, p2score: p2score };
+
     }
 
 
@@ -142,8 +178,14 @@ const game = (function () {
 
                     gameInfo.textContent = `${currentPlayer.name} wins!`;
                     console.log(currentPlayer.name + ' wins!');
+                    currentPlayer.score++;
+                    console.log(`${player1.name} score:${player1.score}. | ${player2.name} score:${player2.score}.`)
                     playBtn.style.visibility = 'visible';
                     playBtn.textContent = 'Replay?'
+
+                    updateScores();
+
+
 
                 }
 
@@ -163,6 +205,15 @@ const game = (function () {
             }
         }
     };
+
+
+
+    const updateScores = function () {
+
+        p1score.textContent = `${player1.score}`;
+        p2score.textContent = `${player2.score}`
+
+    }
 
     const replay = function () {
         if (!gameOver) {
