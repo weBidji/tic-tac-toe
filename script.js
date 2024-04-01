@@ -1,16 +1,20 @@
 const createBoard = (function () {
+
+    const pageTitle = document.createElement('h1');
+    pageTitle.textContent = 'Tic-Tac-Toe';
+    document.body.appendChild(pageTitle);
     const gameContainer = document.createElement('div')
     const gameBoard = document.createElement('div');
     const p1input = document.createElement('input');
 
     p1input.type = 'text';
     p1input.minLength = 3;
-    p1input.maxLength = 12;
+    p1input.maxLength = 10;
 
     const p2input = document.createElement('input');
     p2input.type = 'text';
     p2input.minLength = 3;
-    p2input.maxLength = 12;
+    p2input.maxLength = 10;
 
     document.body.appendChild(gameContainer);
     gameContainer.appendChild(p1input);
@@ -110,6 +114,8 @@ const game = (function () {
 
             let p1NameDisplay = document.createElement('div');
             let p2NameDisplay = document.createElement('div');
+            p1NameDisplay.classList.add('player-display');
+            p2NameDisplay.classList.add('player-display');
             p1NameDisplay.textContent = p1input.value;
             p2NameDisplay.textContent = p2input.value;
             player1.name = p1input.value;

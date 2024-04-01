@@ -6,19 +6,26 @@
     box-sizing: border-box;
 }
 
+h1 {
+    text-align: center;
+    margin: 1rem 0;
+}
+
 .game-container {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
+    gap:35px;
 }
 
-.player-input{
-    border:3px solid blue;
+.player-input {
+    border: 3px solid blue;
+    width:150px;
 }
 
-input:focus{
-    outline:none;
+input:focus {
+    outline: none;
 }
 
 .game-board {
@@ -27,7 +34,6 @@ input:focus{
     grid-template-rows: repeat(3, 1fr);
     height: fit-content;
     width: fit-content;
-    margin: 5rem 0 0 0;
 
 }
 
@@ -41,19 +47,25 @@ input:focus{
 .game-cell:hover {
     cursor: pointer;
 }
+.player-display{
+    width:150px;
+    text-align:center;
+   
+}
 
 .game-info {
     display: block;
     margin: 1rem auto;
-    height:25px;
-    text-align: center; 
-    
+    height: 25px;
+    text-align: center;
+
 }
-.score-board{
-    background-color: blue;
-    display:flex;
+
+.score-board {
+    /* background-color: blue; */
+    display: flex;
     justify-content: space-around;
-    align-items:center;
+    align-items: center;
 }
 
 
