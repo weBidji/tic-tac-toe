@@ -87,19 +87,22 @@ const game = (function () {
 
 
     const player1 = {
-        // name: 'Player 1',
+
         marker: 'X',
         score: 0
     };
 
     const player2 = {
-        // name: 'Player 2',
+
         marker: 'O',
         score: 0
     };
 
     playBtn.addEventListener('click', startGame)
 
+    cells.forEach((cell) => {
+        cell.classList.add('disabled'); // Add the disabled class to all cells initially
+    });
 
     function startGame(e) {
 
@@ -146,11 +149,17 @@ const game = (function () {
 
 
             if (!gameOver) {
-
                 cells.forEach((cell, index) => {
                     cell.addEventListener('click', () => {
                         game.playTurn(index);
                     });
+                    cell.classList.remove('disabled');
+                });
+            } else {
+
+                cells.forEach((cell) => {
+                    cell.removeEventListener('click', () => { });
+                    cell.classList.add('disabled');
                 });
             }
 
@@ -227,6 +236,7 @@ const game = (function () {
 
     }
 
+
     const replay = function () {
         if (!gameOver) {
             gameOver = true;
@@ -237,7 +247,12 @@ const game = (function () {
                 playBtn.style.visibility = 'hidden';
                 resetGame();
 
+
             })
+            cells.forEach((cell) => {
+                cell.removeEventListener('click', () => { });
+                cell.classList.add('disabled');
+            });
 
             return playBtn;
 
@@ -264,11 +279,14 @@ const game = (function () {
 
         cells.forEach((cell) => {
             cell.textContent = '';
+            cell.classList.remove('winning-cell');
+            cell.classList.remove('disabled');
         });
         gameInfo.textContent = '';
         isP1Turn = true;
         currentTurn = 0;
         gameOver = false;
+
     };
 
     const winningCombinations = [
@@ -281,16 +299,26 @@ const game = (function () {
         [0, 4, 8],
         [2, 4, 6]
     ];
-
+    const highlightWinningCells = function (winningCombination) {
+        console.log('Highlighting winning cells:', winningCombination);
+        for (let i = 0; i < winningCombination.length; i++) {
+            const cellIndex = winningCombination[i];
+            cells[cellIndex].classList.add('winning-cell');
+        }
+    };
     const checkForWin = function () {
         for (const combination of winningCombinations) {
             const [a, b, c] = combination;
             if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+                highlightWinningCells(combination);
                 return true;
             }
         }
         return false;
     };
+
+
+
 
     return {
         playTurn: playTurn,
