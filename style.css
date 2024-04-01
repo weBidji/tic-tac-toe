@@ -6,9 +6,34 @@
     box-sizing: border-box;
 }
 
+:root {
+    --slate-50: #F8FAFC;
+    --slate-100: #F1F5F9;
+    --slate-200: #E2E8F0;
+    --slate-300: #CBD5E1;
+    --slate-400: #94A3B8;
+    --slate-500: #64748B;
+    --slate-600: #475569;
+    --slate-700: #334155;
+    --slate-800: #1E293B;
+    --slate-900: #0F172A;
+    --slate-950: #020617;
+    --ff-lofi: 'lofi', arial, helvetica, sans-serif;
+
+
+}
+
+body {
+    background-color: var(--slate-100);
+    font-family: var(--ff-lofi);
+}
+
 h1 {
     text-align: center;
     margin: 1rem 0;
+
+    font-size: 4rem;
+    color: var(--slate-900);
 }
 
 .game-container {
@@ -16,12 +41,19 @@ h1 {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap:35px;
+    gap: 35px;
 }
 
 .player-input {
-    border: 3px solid blue;
-    width:150px;
+
+    border-radius: 5px;
+    width: 150px;
+    font-size: 1.4rem;
+    padding: 5px 5px;
+    font-family: var(--ff-lofi);
+    text-align: center;
+    border: none;
+
 }
 
 input:focus {
@@ -34,6 +66,7 @@ input:focus {
     grid-template-rows: repeat(3, 1fr);
     height: fit-content;
     width: fit-content;
+    background-color: var(--slate-200);
 
 }
 
@@ -42,15 +75,28 @@ input:focus {
     height: 150px;
     width: 150px;
     border-collapse: collapse;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3.5rem;
 }
 
 .game-cell:hover {
     cursor: pointer;
 }
-.player-display{
-    width:150px;
-    text-align:center;
-   
+
+.player-display {
+    width: 150px;
+    text-align: center;
+    font-size: 1.4rem;
+    transition: font-size 0.8s ease-in-out, font-weight 0.8s ease-in-out;
+
+}
+
+.player-display.active {
+    font-size: 2rem;
+    font-weight: 900;
+    /* Gradually scale to full size */
 }
 
 .game-info {
@@ -58,25 +104,48 @@ input:focus {
     margin: 1rem auto;
     height: 25px;
     text-align: center;
+    font-size: 2.2rem;
 
 }
 
 .score-board {
-    /* background-color: blue; */
     display: flex;
     justify-content: space-around;
     align-items: center;
+    font-family: 'absolute neon', Arial, Helvetica, sans-serif;
+    font-size: 3.5rem;
+    font-weight: 800;
 }
 
 
-.play-btn:hover {
-    cursor: pointer;
-}
+
 
 .play-btn {
     display: block;
-    /* margin: 0 auto; */
-    background-color: pink;
-    height: 80px;
-    width: 80px;
+    background-color: var(--slate-600);
+    border: none;
+    border-radius: 4px;
+    font-family: 'lofi', Arial, Helvetica, sans-serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    padding: 0.6em 1em;
+    margin-top: 1rem;
+    color: var(--slate-200);
+    transition: transform 0.2s linear;
+}
+
+.play-btn:hover {
+    cursor: pointer;
+    background-color: #334155;
+    transform: scale(1.1);
+}
+
+@font-face {
+    font-family: 'lofi';
+    src: url(fonts/Lofi\ Lifestyle\ Demo.ttf);
+}
+
+@font-face {
+    font-family: 'absolute neon';
+    src: url(fonts/AbsoluteNeonScript.ttf);
 }

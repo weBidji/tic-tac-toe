@@ -136,6 +136,12 @@ const game = (function () {
             gameContainer.insertBefore(p1NameDisplay, gameBoard);
             gameContainer.appendChild(p2NameDisplay);
 
+            setTimeout(() => {
+                document.querySelectorAll('.player-display').forEach(playerDisplay => {
+                    playerDisplay.classList.add('active');
+                });
+            }, 50);
+
 
 
 
